@@ -1,0 +1,59 @@
+
+//Query 1- A query that shows the count of customers assigned to each sales agent.
+
+
+SELECT e.FirstName||" "||e.LastName as "Sales Agent", COUNT(c.SupportRepId) as "Customer Count"
+FROM Employee e
+JOIN Customer c
+ON c.SupportRepId = e.EmployeeId
+GROUP BY e.EmployeeId;
+---------------------------------------------------------------------------------------------
+
+
+//Query 2- A query that shows the top 3 best selling artists.
+
+
+SELECT "Artist Name", "Total Earned"
+FROM
+(SELECT ar.Name as "Artist Name", SUM(t.UnitPrice) as "Total earned"
+FROM Track t
+JOIN Album a
+ON t.AlbumId = a.AlbumId
+JOIN Artist ar
+ON a.ArtistId = ar.ArtistId
+GROUP BY ar.Name)
+ORDER BY "Total Earned" DESC
+LIMIT 3;
+
+
+// 1 IRON MAIDEN - $210.87
+// 2 LOST - $183.08
+// 3 U2 - $133.65
+------------------------------------------------------------------------------------------------
+
+//Query 3- A query that shows total sales made by each sales agent.
+
+
+SELECT e.FirstName||" "||e.LastName as "Sales Agent", SUM(i.Total) as "Total for Agent"
+FROM Invoice i
+JOIN Customer c
+ON c.CustomerId = i.CustomerId
+JOIN Employee e 
+ON c.SupportRepId = e.EmployeeId
+GROUP BY e.EmployeeId;
+
+// Jane P = $833.03
+// Margaret P = $775.40
+// Steve J = $720.16
+--------------------------------------------------------------------------------------------------
+
+
+//Query 4- A query that shows the total number of tracks in each playlist.
+
+SELECT p.Name, COUNT(pt.TrackId) as "Number Of Tracks"
+FROM Playlist p
+JOIN PlaylistTrack pt
+ON p.PlaylistId = pt.PlaylistId
+GROUP BY p.name;
+
+
